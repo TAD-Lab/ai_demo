@@ -8,9 +8,9 @@ import cv2
 import numpy as np
 import os
 
-from keras.models import load_model
-from keras.preprocessing import image
-from keras.preprocessing.image import img_to_array
+from tensorflow.keras.models import load_model
+from tensorflow.keras.preprocessing import image
+from tensorflow.keras.preprocessing.image import img_to_array
 from time import sleep
 
 # Ensure image size matches models
@@ -21,8 +21,8 @@ IMG_DEPTH = 3
 path = os.path.join('models', 'haarcascade_frontalface_default.xml')
 face_classifier = cv2.CascadeClassifier(path)
 
-age_model = load_model(os.path.join('models', 'age_model_20epochs-v2.h5'))
-gender_model = load_model(os.path.join('models', 'gender_model_20epochs-v2.h5'))
+age_model = load_model(os.path.join('models', 'age_model_10epochs-v4.h5'))
+gender_model = load_model(os.path.join('models', 'gender_model_10epochs-v4.h5'))
 
 gender_labels = ['Male', 'Female']
 
