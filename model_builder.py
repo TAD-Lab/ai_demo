@@ -9,13 +9,13 @@ import os
 import pandas as pd
 import seaborn as sns
 
-from keras.layers import BatchNormalization, Conv2D, Dense, Dropout, Flatten, Input, MaxPool2D
-from keras.models import load_model, Model, Sequential
+from tensorflow.keras.layers import BatchNormalization, Conv2D, Dense, Dropout, Flatten, Input, MaxPool2D
+from tensorflow.keras.models import load_model, Model, Sequential
 from sklearn import metrics
 from sklearn.metrics import confusion_matrix
 from sklearn.model_selection import train_test_split
 
-num_epochs = 5
+num_epochs = 10
 
 # For image resizing (default is 200x200)
 IMG_WIDTH = 128
@@ -120,8 +120,8 @@ plt.show()
 history = history_gender
 
 # Plot the training and validation accuracy at each epoch
-acc = history.history['accuracy']
-val_acc = history.history['val_accuracy']
+acc = history.history['acc']
+val_acc = history.history['val_acc']
 
 plt.plot(epochs, acc, 'y', label = 'training acc')
 plt.plot(epochs, val_acc, 'r', label = 'validation acc')
