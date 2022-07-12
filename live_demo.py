@@ -14,15 +14,15 @@ from tensorflow.keras.preprocessing.image import img_to_array
 from time import sleep
 
 # Ensure image size matches models
-IMG_WIDTH = 128
-IMG_HEIGHT = 128
+IMG_WIDTH = 200
+IMG_HEIGHT = 200
 IMG_DEPTH = 3
 
 path = os.path.join('models', 'haarcascade_frontalface_default.xml')
 face_classifier = cv2.CascadeClassifier(path)
 
-age_model = load_model(os.path.join('models', 'age_model_10epochs-v4.h5'))
-gender_model = load_model(os.path.join('models', 'gender_model_10epochs-v4.h5'))
+age_model = load_model(os.path.join('models', 'age_model_20epochs-v7.h5'))
+gender_model = load_model(os.path.join('models', 'gender_model_20epochs-v7.h5'))
 
 gender_labels = ['Male', 'Female']
 

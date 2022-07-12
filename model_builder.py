@@ -15,11 +15,15 @@ from sklearn import metrics
 from sklearn.metrics import confusion_matrix
 from sklearn.model_selection import train_test_split
 
-num_epochs = 10
+# Set the version number to save as
+ver = 1
+
+# Number of times to process the dataset
+num_epochs = 4
 
 # For image resizing (default is 200x200)
-IMG_WIDTH = 128
-IMG_HEIGHT = 128
+IMG_WIDTH = 200
+IMG_HEIGHT = 200
 IMG_DEPTH = 3
 
 # Folders for image dataset and models
@@ -27,13 +31,15 @@ path_data = "dataset"
 path_models = "models"
 
 # Filenames for outputting the processed models
-output_age_model = os.path.join(path_models, f'age_model_{num_epochs}epochs-v4.h5')
-output_gender_model = os.path.join(path_models, f'gender_model_{num_epochs}epochs-v4.h5')
+output_age_model = os.path.join(path_models, f'age_model_{num_epochs}epochs-v{ver}.h5')
+output_gender_model = os.path.join(path_models, f'gender_model_{num_epochs}epochs-v{ver}.h5')
 
+# Keep track of each imported image and its associated data
 images = []
 ages = []
 genders = []
 
+# Load each image into images[]
 for img in os.listdir(path_data):
   age = img.split("_")[0]
   gender = img.split("_")[1]
@@ -45,13 +51,16 @@ for img in os.listdir(path_data):
   else:
       images.append(np.array(img))
 
+  # Take extracted age/gender and record it for use in training
   ages.append(np.array(age))
   genders.append(np.array(gender))
 
+# Convery python lists to np arrays
 ages = np.array(ages, np.int64)
 images = np.array(images)
 genders = np.array(genders, np.uint64)
 
+#Train the age and gender models independently
 x_train_age, x_test_age, y_train_age, y_test_age = train_test_split(images, ages, random_state=42)
 x_train_gender, x_test_gender, y_train_gender, y_test_gender = train_test_split(images, genders, random_state=42)
 
@@ -77,6 +86,8 @@ print(age_model.summary())
 history_age = age_model.fit(x_train_age, y_train_age, validation_data=(x_test_age, y_test_age), epochs=num_epochs)
 
 age_model.save(output_age_model)
+
+############################################################
 
 #Define gender model and train
 gender_model = Sequential()
@@ -143,3 +154,4 @@ print ("Accuracy =", metrics.accuracy_score(y_test_gender, y_pred))
 # Verify accuracy of each class
 cm = confusion_matrix(y_test_gender, y_pred)
 sns.heatmap(cm, annot=True)
+plt.show()
