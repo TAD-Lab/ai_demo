@@ -19,7 +19,7 @@ from sklearn.model_selection import train_test_split
 ver = 1
 
 # Number of times to process the dataset
-num_epochs = 4
+num_epochs = 10
 
 # For image resizing (default is 200x200)
 IMG_WIDTH = 200
@@ -55,7 +55,7 @@ for img in os.listdir(path_data):
   ages.append(np.array(age))
   genders.append(np.array(gender))
 
-# Convery python lists to np arrays
+# Convert python lists to np arrays
 ages = np.array(ages, np.int64)
 images = np.array(images)
 genders = np.array(genders, np.uint64)
