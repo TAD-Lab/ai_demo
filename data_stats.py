@@ -1,10 +1,12 @@
-'''
+"""
 Updated: 2022-11-28
 Refactored plot code into show_plot().
 
 Takes dataset information (age, gender, ethnicity) and displays
 each distribution as a bar chart.
-'''
+
+Written by Steve Legere for OPC/Technology Analysis Directorate
+"""
 import matplotlib.pyplot as plt
 from os import walk
 
@@ -13,14 +15,9 @@ from os import walk
 dataset_folder = "dataset"
 
 
-'''
-Parameters:
-    data -> dict(<string>: <int>)
-    title -> string
-
-Function:
-    Uses pyplot to display the "data" dictionary as a bar chart with "title".
-'''
+"""
+Uses pyplot to display the "data" dictionary as a bar chart with "title".
+"""
 def show_plot(data, title):
     plt.figure(figsize=(12,6))
     plt.bar(range(len(data)), list(data.values()), align='center')
@@ -32,29 +29,40 @@ def show_plot(data, title):
 
 def main():
     """
-    # A description of the dataset can be found here:
-    # https://susanqq.github.io/UTKFace/
-
-    You need to count the number of instances that each age, each gender, and
-    each ethnicity occurs in the dataset. Store that info in the below
-    dictionaries as appropriate (e.g. {18: 284, 19: 271} might be two appropriate
-    entries in the "ages" dict, {"Male": 8419} might be an entry in "genders", etc.)
-    You'll need to convert ethnicities from numbers to strings!
+    A description of the dataset can be found here:
+    https://susanqq.github.io/UTKFace/
     """
     
     ages = dict()
     genders = dict()
     ethnicities = dict()
     
-    # TODO: Walk through the dataset folder and fill the dictionaries...
-    raise NotImplementedError("Hint: use os.walk")
+    # Walk through the dataset folder and fill the dictionaries...
+    for path, dirs, files in walk(dataset_folder):
+        for file in files:
+            # Get metadata from filenames
+            meta = file.split("_")
+            a, g, e = int(meta[0]), int(meta[1]), int(meta[2])
 
-    """
-    You don't need to edit below here. Basically, each time you call show_plot,
-    a window will pop up with the appropriate graph. When you close the window,
-    the next show_plot will pop up. Once you've closed all three, the program
-    will terminate.
-    """
+            # Place metadata into each dictionary
+            ages[a] = ages[a] + 1 if a in ages.keys() else 1
+            genders[g] = genders[g] + 1 if g in genders.keys() else 1
+            ethnicities[e] = ethnicities[e] + 1 if e in ethnicities.keys() else 1
+        break
+    
+    # Put descriptive labels in the dictionaries
+    try:
+        genders["Male"] = genders.pop(0)
+        genders["Female"] = genders.pop(1)
+        
+        ethnicities["White"] = ethnicities.pop(0)
+        ethnicities["Black"] = ethnicities.pop(1)
+        ethnicities["Asian"] = ethnicities.pop(2)
+        ethnicities["India"] = ethnicities.pop(3)
+        ethnicities["Other"] = ethnicities.pop(4)
+        
+    except KeyError as e:
+        print(f'Warning: skipped key/value pair (not found): {e}')
     
     # Plot age graph and show
     show_plot(ages, "Age")
@@ -65,6 +73,5 @@ def main():
     # Plot ethnicity graph and show
     show_plot(ethnicities, "Ethnicity")
 
-
-if __name__=="__main__":
+if __name__ == "__main__":
     main()

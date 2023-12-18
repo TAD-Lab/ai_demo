@@ -1,6 +1,16 @@
 """
 Prediction of age and gender using TensorFlow.
 Dataset images: https://susanqq.github.io/UTKFace/
+
+This code was roughly copied from a closed investigation.
+To train a new model and run:
+
+1. Change the 'ver' and 'num_epochs' below.
+2. Ensure the images in dataset conform to the filename structure (see data_stats.py)
+3. Use conda (e.g. 'conda activate tf' in WSL) and run this script.
+4. Update the live_demo.py with the correct model version number and run live_demo.py on host.
+
+Written by Steve Legere for OPC/Technology Analysis Directorate
 """
 import cv2
 import matplotlib.pyplot as plt
@@ -16,14 +26,14 @@ from sklearn.metrics import confusion_matrix
 from sklearn.model_selection import train_test_split
 
 # Set the version number to save as
-ver = 1
+ver = 999
 
 # Number of times to process the dataset
-num_epochs = 10
+num_epochs = 5
 
 # For image resizing (default is 200x200)
-IMG_WIDTH = 200
-IMG_HEIGHT = 200
+IMG_WIDTH = 128
+IMG_HEIGHT = 128
 IMG_DEPTH = 3
 
 # Folders for image dataset and models
@@ -113,6 +123,10 @@ gender_model.save(output_gender_model)
 
 ############################################################
 
+# Commented out below because it unfortunately doesn't work in WSL / conda env
+# However you could re-use this code if you port this model builder to the host (Windows)
+
+"""
 history = history_age
 
 # Plot the training and validation loss at each epoch
@@ -155,3 +169,4 @@ print ("Accuracy =", metrics.accuracy_score(y_test_gender, y_pred))
 cm = confusion_matrix(y_test_gender, y_pred)
 sns.heatmap(cm, annot=True)
 plt.show()
+"""

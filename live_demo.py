@@ -2,6 +2,8 @@
 Live prediction of age and gender using pre-trained models.
 Uses haar Cascades classifier to detect faces.
 Uses pre-trained models for gender and age to predict them from live video feed.
+
+Written by Steve Legere for OPC/Technology Analysis Directorate
 """
 import copy
 import cv2
@@ -19,15 +21,18 @@ from tensorflow.keras.preprocessing.image import img_to_array
 from time import sleep
 
 # Ensure image size matches models
-IMG_WIDTH = 200
-IMG_HEIGHT = 200
+IMG_WIDTH = 128
+IMG_HEIGHT = 128
 IMG_DEPTH = 3
+
+# Model version selection
+model_ver = "50epochs-v10"
 
 path = os.path.join('models', 'haarcascade_frontalface_default.xml')
 face_classifier = cv2.CascadeClassifier(path)
 
-age_model = load_model(os.path.join('models', 'age_model_20epochs-v7.h5'))
-gender_model = load_model(os.path.join('models', 'gender_model_20epochs-v7.h5'))
+age_model = load_model(os.path.join('models', f'age_model_{model_ver}.h5'))
+gender_model = load_model(os.path.join('models', f'gender_model_{model_ver}.h5'))
 
 gender_labels = ['Male', 'Female']
 
